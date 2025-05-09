@@ -110,9 +110,9 @@
     }
 
     .card {
-      position: absolute;
+      position: fixed;
       top: 180px;
-      left: 20px;
+      right: 20px;
       width: 200px;
       height: 250px;
       border-radius: 14px;
@@ -184,6 +184,12 @@
       object-fit: cover;
       box-shadow: 0 0 15px rgba(0, 255, 198, 0.6);
       margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .card {
+        display: none;
+      }
     }
   </style>
 </head>
