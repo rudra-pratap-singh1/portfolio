@@ -1,119 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Floating Card Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
   <style>
-    body {
-      font-family: sans-serif;
+    * {
       margin: 0;
       padding: 0;
-      background: #1f1f1f;
-      color: #fff;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      line-height: 1.6;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideInUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     header {
       padding: 2rem;
       text-align: center;
-      background: #333;
+      background-color: rgba(0, 0, 0, 0.3);
+      animation: slideInUp 1s ease-out;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      animation: slideInUp 1.2s ease-out;
+    }
+
+    nav a {
+      margin: 0 1rem;
+      color: #00d9ff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00ffc6;
     }
 
     section {
-      padding: 3rem 2rem;
-      max-width: 700px;
+      padding: 4rem 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: slideInUp 1s ease-out forwards;
+    }
+
+    section:nth-of-type(2) { animation-delay: 0.2s; }
+    section:nth-of-type(3) { animation-delay: 0.4s; }
+    section:nth-of-type(4) { animation-delay: 0.6s; }
+    section:nth-of-type(5) { animation-delay: 0.8s; }
+    section:nth-of-type(6) { animation-delay: 1s; }
+
+    .about, .skills, .projects, .contact {
+      max-width: 800px;
       margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+      color: #00ffc6;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .project {
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 20px #00ffc6;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-size: 0.9rem;
+      animation: fadeIn 1s ease-in 1.5s forwards;
     }
 
     .card {
-      position: fixed;
-      top: 100px;
-      right: 30px;
-      width: 220px;
-      height: 260px;
+      position: fixed; /* Fixed instead of absolute */
+      top: 180px;
+      right: 20px; /* Moved to right */
+      width: 200px;
+      height: 250px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      z-index: 999;
+      z-index: 1111;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
     }
 
-    .card img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 10px rgba(0,255,255,0.5);
+    .bg {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 190px;
+      height: 240px;
+      z-index: 2;
+      background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(24px);
+      border-radius: 10px;
+      overflow: hidden;
+      outline: 2px solid white;
     }
 
     .blob {
       position: absolute;
-      width: 160px;
-      height: 160px;
-      background: red;
-      border-radius: 50%;
-      filter: blur(20px);
-      opacity: 0.6;
-      animation: bounce 5s infinite ease-in-out;
       z-index: 1;
+      top: 50%;
+      left: 50%;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: #ff0000;
+      opacity: 1;
+      filter: blur(12px);
+      animation: blob-bounce 5s infinite ease;
     }
 
-    .card-content {
+    @keyframes blob-bounce {
+      0% { transform: translate(-100%, -100%) translate3d(0, 0, 0); }
+      25% { transform: translate(-100%, -100%) translate3d(100%, 0, 0); }
+      50% { transform: translate(-100%, -100%) translate3d(100%, 100%, 0); }
+      75% { transform: translate(-100%, -100%) translate3d(0, 100%, 0); }
+      100% { transform: translate(-100%, -100%) translate3d(0, 0, 0); }
+    }
+
+    .card-img {
       position: relative;
-      z-index: 2;
-    }
-
-    @keyframes bounce {
-      0% { transform: translate(0, 0); }
-      25% { transform: translate(60px, 0); }
-      50% { transform: translate(60px, 60px); }
-      75% { transform: translate(0, 60px); }
-      100% { transform: translate(0, 0); }
-    }
-
-    @media (max-width: 768px) {
-      .card {
-        display: none;
-      }
+      z-index: 3;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 0 15px rgba(0, 255, 198, 0.6);
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Rudra Pratap Singh</h1>
+    <p>Python Developer | AI/ML Enthusiast | Web Developer</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<header>
-  <h1>Rudra Pratap Singh</h1>
-  <p>Python Developer | AI/ML Enthusiast</p>
-</header>
-
-<section>
-  <h2>About Me</h2>
-  <p>I am passionate about technology and I love building applications in Python. I am also exploring AI/ML and building web apps in my free time.</p>
-</section>
-
-<section>
-  <h2>Projects</h2>
-  <p>Some projects go here. Scroll down to see the card stay fixed.</p>
-</section>
-
-<section>
-  <h2>More Content</h2>
-  <p>This is to demonstrate scrolling behavior. The floating card should stay on the right.</p>
-</section>
-
-<!-- Floating Card -->
-<div class="card">
-  <div class="blob"></div>
-  <div class="card-content">
-    <img src="https://via.placeholder.com/100" alt="Profile" />
-    <h3 style="color: #000; margin-top: 1rem;">Rudra</h3>
-    <p style="color: #444;">Developer</p>
+  <!-- Floating Card -->
+  <div class="card">
+    <div class="bg"></div>
+    <div class="blob"></div>
+    <img src="hhtt.webp" alt="Card Image" class="card-img" />
   </div>
-</div>
 
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+      <img src="microsoft pfp.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px rgba(0,255,198,0.6); animation: fadeIn 1s ease-in-out;">
+      <p style="flex: 1;">
+        I’m a passionate developer skilled in building web and desktop applications. I love solving problems with Python and diving deep into the world of AI and machine learning.
+      </p>
+    </div>
+  </section>
+
+  <section id="skills" class="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML, CSS, JavaScript</li>
+      <li>Python, Weather API Integration</li>
+      <li>Machine Learning, Artificial Intelligence</li>
+      <li>Data Analysis, Pandas, NumPy</li>
+    </ul>
+  </section>
+
+  <section id="projects" class="projects">
+    <h2>Projects</h2>
+    <div class="project">
+      <h3>Portfolio Website</h3>
+      <p>A sleek personal portfolio built using HTML, CSS, and JavaScript.</p>
+    </div>
+    <div class="project">
+      <h3>AI Chatbot</h3>
+      <p>Developed an intelligent chatbot using Python and NLP libraries.</p>
+    </div>
+    <div class="project">
+      <h3>Weather API Project</h3>
+      <p>Built a Python application that fetches real-time weather data using an external API and displays it in a user-friendly interface.</p>
+    </div>
+  </section>
+
+  <section id="achievements" class="contact">
+    <h2>Achievements</h2>
+    <ul>
+      <li>🏅 Ranked <strong>77</strong> in <strong>Code Clash Championship</strong> hosted by <strong>IIT Kanpur</strong></li>
+    </ul>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    <p>Email: proop500@gmail.com</p>
+    <p>GitHub: <a href="https://github.com/rudraezz22" target="_blank" style="color:#00ffc6;">@rudraezz22</a></p>
+    <p>Discord: <a href="https://discord.com/users/rudraezz_22" target="_blank" style="color:#00ffc6;">rudraezz_22</a></p>
+  </section>
+
+  <script>
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
 </body>
 </html>
