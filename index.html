@@ -1,187 +1,451 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      scroll-behavior: smooth;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rudra's Cyber Portfolio</title>
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      line-height: 1.6;
-      animation: fadeIn 1s ease-in;
-    }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+        /* === GLOBAL STYLES & BACKGROUND === */
+        :root {
+            --dark-bg: #0a0a0c;
+            --cyan-glow: #22d3ee;
+            --pink-glow: #f472b6;
+            --purple-glow: #a855f7;
+        }
 
-    @keyframes slideInUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        
+        /* === BACKGROUND GLOW EFFECT === */
+        .neon-glow-container {
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-pink, .glow-cyan, .glow-purple {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(200px);
+            z-index: 0;
+        }
+        .glow-pink { background-color: #ec4899; top: -100px; left: -100px; }
+        .glow-cyan { background-color: #06b6d4; bottom: -100px; right: -100px; }
+        .glow-purple { background-color: #9333ea; width: 400px; height: 400px; bottom: 20%; left: 10%; filter: blur(150px); }
 
-    header {
-      padding: 2rem;
-      text-align: center;
-      background-color: rgba(0, 0, 0, 0.3);
-      animation: slideInUp 1s ease-out;
-    }
+        /* === PARTICLE ANIMATION === */
+        @keyframes particle-animate {
+            0%   { opacity: 0.2; transform: translateY(-20px) scale(0.5); }
+            50%  { opacity: 1; transform: translateY(20px) scale(1); }
+            100% { opacity: 0.2; transform: translateY(-20px) scale(0.5); }
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: var(--cyan-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan-glow);
+            pointer-events: none;
+            animation: particle-animate linear infinite;
+        }
 
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-      animation: slideInUp 1.2s ease-out;
-    }
+        /* === HEADER STYLES === */
+        header {
+            text-align: center;
+            padding: 100px 0;
+            position: relative;
+            z-index: 10;
+        }
+        h1 {
+            font-size: 3.5rem; /* Equivalent to 6xl */
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+            margin: 0;
+            animation: header-fade-in 1s ease-out;
+        }
+        @keyframes header-fade-in {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+            animation: subtitle-fade-in 1s ease-out 0.6s backwards;
+        }
+        @keyframes subtitle-fade-in {
+            from { opacity: 0; }
+            to { opacity: 0.8; }
+        }
 
-    nav a {
-      margin: 0 1rem;
-      color: #00d9ff;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
+        /* === PYRAMID LOADER CSS (Custom 3D) === */
+        .pyramid-loader-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .pyramid-loader {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: block;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg);
+        }
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: spin 2s ease-in-out infinite;
+        }
+        @keyframes spin { 100% { transform: rotateY(360deg); } }
+        .pyramid-loader .wrapper .side {
+            width: 100%;
+            height: calc(100% * 167 / 240);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transform-origin: center top;
+            background: conic-gradient(from 0deg, #00ffcc, #00c896, #007e7e, #00ffcc);
+        }
+        .side1 { transform: rotateZ(-45deg) rotateY(90deg); }
+        .side2 { transform: rotateZ(45deg) rotateY(90deg); }
+        .side3 { transform: rotateX(45deg); }
+        .side4 { transform: rotateX(-45deg); }
+        .side5 { transform: rotateZ(-45deg) rotateY(90deg) rotateX(180deg); top: 148%; }
+        .side6 { transform: rotateZ(45deg) rotateY(90deg) rotateX(180deg); top: 148%; }
+        .side7 { transform: rotateX(45deg) rotateX(180deg); top: 148%; }
+        .side8 { transform: rotateX(-45deg) rotateX(180deg); top: 148%; }
+        .shadow {
+            width: 66%;
+            height: 66%;
+            position: absolute;
+            top: 55%;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transform: rotateX(90deg) translateZ(-40px);
+            background: #00c896;
+            filter: blur(20px);
+        }
 
-    nav a:hover {
-      color: #00ffc6;
-    }
+        /* === SECTION STYLES === */
+        section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 32px;
+            position: relative;
+            z-index: 10;
+        }
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-left: 12px;
+            border-left: 4px solid;
+            display: inline-block;
+        }
+        .bio-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px;
+            border-radius: 16px;
+            line-height: 1.6;
+            font-size: 1.125rem;
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
+            transition: box-shadow 0.3s ease;
+        }
+        .bio-box:hover {
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.4);
+        }
 
-    section {
-      padding: 4rem 2rem;
-      opacity: 0;
-      transform: translateY(50px);
-      animation: slideInUp 1s ease-out forwards;
-    }
+        /* === SKILLS GRID === */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            position: relative;
+        }
+        .skill-item {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(34, 211, 238, 0.3);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            letter-spacing: 0.025em;
+            box-shadow: 0 0 20px var(--cyan-glow);
+            transition: all 0.3s ease;
+        }
+        .skill-item:hover {
+            box-shadow: 0 0 40px var(--cyan-glow);
+            transform: scale(1.05);
+        }
 
-    section:nth-of-type(2) { animation-delay: 0.2s; }
-    section:nth-of-type(3) { animation-delay: 0.4s; }
-    section:nth-of-type(4) { animation-delay: 0.6s; }
-    section:nth-of-type(5) { animation-delay: 0.8s; }
-    section:nth-of-type(6) { animation-delay: 1s; }
+        /* === MAIN PROJECT (HOLOGRAM) === */
+        .project-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(244, 72, 182, 0.2) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        .project-card:hover {
+            box-shadow: 0 0 80px rgba(255, 255, 255, 0.5);
+        }
+        .project-card h3 { font-size: 1.875rem; font-weight: 700; margin-bottom: 0.75rem; }
 
-    .about, .skills, .projects, .contact {
-      max-width: 800px;
-      margin: 0 auto;
-      background-color: rgba(255, 255, 255, 0.05);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-    }
+        /* === OTHER WORK CARDS === */
+        .other-work-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
+        }
+        .other-work-item:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .indicator {
+            position: absolute;
+            right: 16px;
+            top: 16px;
+            width: 12px;
+            height: 12px;
+            background-color: #fb7185;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fb7185;
+        }
 
-    h2 {
-      margin-bottom: 1rem;
-      color: #00ffc6;
-    }
+        /* === CONTACT / FOOTER === */
+        .contact-section { text-align: center; }
+        .contact-section a { color: #67e8f9; text-decoration: none; }
+        .contact-section strong { letter-spacing: 0.1em; color: #a5f3fc; }
 
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
+        /* === CTA BUTTON === */
+        .cta-container { display: flex; justify-content: center; padding: 48px 0; }
+        .cta-button {
+            padding: 12px 40px;
+            background: linear-gradient(to right, #ef4444, #f97316);
+            border-radius: 9999px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+            font-family: serif;
+            letter-spacing: 0.2em;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-weight: bold;
+        }
+        .cta-button:hover { transform: scale(1.1); }
+        .cta-button:active { transform: scale(0.95); }
 
-    ul li {
-      margin-bottom: 0.5rem;
-    }
+        /* === MODAL STYLES === */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: none; /* Controlled by JavaScript */
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+        .modal-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fbcfe8;
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.5);
+            max-width: 380px;
+            text-align: center;
+            position: relative;
+            animation: modal-in 0.35s ease-out forwards;
+        }
+        .modal-card h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .modal-close-btn {
+            margin-top: 8px;
+            padding: 8px 20px;
+            background: rgba(244, 63, 94, 0.9);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .modal-close-btn:hover { background: #f43f5e; }
 
-    .project {
-      margin-bottom: 1.5rem;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .project:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 20px #00ffc6;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: rgba(0, 0, 0, 0.2);
-      font-size: 0.9rem;
-      animation: fadeIn 1s ease-in 1.5s forwards;
-    }
-  </style>
+        @keyframes modal-in {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+    </style>
 </head>
+
 <body>
-  <header>
-    <h1>Rudra Pratap Singh</h1>
-    <p>Python Developer | AI/ML Enthusiast | Web Developer</p>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#achievements">Achievements</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
 
-  <section id="about" class="about">
-    <h2>About Me</h2>
-    <div style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
-      <img src="microsoft pfp.jpg" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px rgba(0,255,198,0.6); animation: fadeIn 1s ease-in-out;">
-      <p style="flex: 1;">
-        I’m a passionate developer skilled in building web and desktop applications. I love solving problems with Python and diving deep into the world of AI and machine learning.
-      </p>
+    <div class="neon-glow-container">
+        <div class="glow-pink"></div>
+        <div class="glow-cyan"></div>
+        <div class="glow-purple"></div>
     </div>
-  </section>
 
-  <section id="skills" class="skills">
-    <h2>Skills</h2>
-    <ul>
-      <li>HTML, CSS, JavaScript</li>
-      <li>Python, Weather API Integration</li>
-      <li>Machine Learning, Artificial Intelligence</li>
-      <li>Data Analysis, Pandas, NumPy</li>
-    </ul>
-  </section>
+    <div id="particles-container"></div>
 
-  <section id="projects" class="projects">
-    <h2>Projects</h2>
-    <div class="project">
-      <h3>Portfolio Website</h3>
-      <p>A sleek personal portfolio built using HTML, CSS, and JavaScript.</p>
+    <header>
+        <h1>ルドラ • Rudra Pratap Singh</h1>
+
+        <div class="pyramid-loader-container">
+            <div class="pyramid-loader">
+                <div class="wrapper">
+                    <span class="side side1"></span>
+                    <span class="side side2"></span>
+                    <span class="side side3"></span>
+                    <span class="side side4"></span>
+                    <span class="side side5"></span>
+                    <span class="side side6"></span>
+                    <span class="side side7"></span>
+                    <span class="side side8"></span>
+                    <span class="shadow"></span>
+                </div>
+            </div>
+        </div>
+
+        <p class="subtitle">AI & Full-Stack Architect • Intelligent System Designer</p>
+    </header>
+
+    <div style="display: flex; justify-content: center; position: relative; z-index: 10;">
+        <div style="width: 75%; height: 2px; background: linear-gradient(to right, transparent, #67e8f9, transparent); animation: pulse 2s infinite;"></div>
     </div>
-    <div class="project">
-      <h3>AI Chatbot</h3>
-      <p>Developed an intelligent chatbot using Python and NLP libraries.</p>
+
+    <section>
+        <h2 style="color: #f9a8d4; border-color: #ec4899;">バイオ • Bio</h2>
+        <div class="bio-box">
+            Innovative developer building intelligent systems and scalable full-stack products. Skilled in AI/ML,
+            Python, DSA, and modern web development. Passionate about futuristic, cyber-themed Japanese digital
+            experiences.
+        </div>
+    </section>
+
+    <section>
+        <h2 style="color: #67e8f9; border-color: #06b6d4;">技術 • Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-item">AI / Machine Learning</div>
+            <div class="skill-item">Python</div>
+            <div class="skill-item">Full-Stack Development</div>
+            <div class="skill-item">React + Node.js</div>
+            <div class="skill-item">DSA</div>
+            <div class="skill-item">Automation Systems</div>
+            <div class="skill-item">Scalable Backend Architecture</div>
+            <div class="skill-item">Cyber Security Basics</div>
+        </div>
+    </section>
+
+    <section>
+        <h2 style="color: #c084fc; border-color: #a855f7;">ホログラム • Main Project</h2>
+        <div class="project-card">
+            <h3>Vishwa AI</h3>
+            <p style="opacity: 0.9;">
+                Next-gen AI system designed for hyper-automation, cognitive intelligence & futuristic workflows.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 style="color: #fda4af; border-color: #f43f5e;">作業 • Other Work</h2>
+        <div class="other-work-list">
+            <div class="other-work-item">Client Websites <span class="indicator"></span></div>
+            <div class="other-work-item">Portfolio UI Builds <span class="indicator"></span></div>
+            <div class="other-work-item">AI Tools & Automation <span class="indicator"></span></div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h2 style="color: #93c5fd; border-color: #3b82f6; display: inline-block; padding-left: 12px; margin-bottom: 24px;">連絡先 • Contact</h2>
+        <p style="font-size: 1.125rem; opacity: 0.9;">
+            Email: <a href="mailto:proop500@gmail.com">proop500@gmail.com</a>
+            <br><br>
+            GitHub / LinkedIn: <strong>rudraezz_22</strong>
+        </p>
+    </section>
+
+    <div class="cta-container">
+        <button class="cta-button" onclick="showModal()">WELCOME</button>
     </div>
-    <div class="project">
-      <h3>Weather API Project</h3>
-      <p>Built a Python application that fetches real-time weather data using an external API and displays it in a user-friendly interface.</p>
+
+    <div id="cute-message-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 style="color: #f9a8d4;">こんにちは、美しい魂 ✨</h3>
+            <p style="opacity: 0.8; margin-bottom: 16px;">Hello, beautiful soul — 今日は素敵な一日になりますように。</p>
+            <button class="modal-close-btn" onclick="hideModal()">閉じる</button>
+        </div>
     </div>
-  </section>
 
-  <section id="achievements" class="contact">
-    <h2>Achievements</h2>
-    <ul>
-      <li>🏅 Ranked <strong>77</strong> in <strong>Code Clash Championship</strong> hosted by <strong>IIT Kanpur</strong></li>
-    </ul>
-  </section>
+    <script>
+        // --- Modal Control Functions ---
+        function showModal() {
+            document.getElementById('cute-message-modal').style.display = 'flex';
+        }
 
-  <section id="contact" class="contact">
-    <h2>Contact</h2>
-    <p>Email: proop500@gmail.com</p>
-    <p>GitHub: <a href="https://github.com/rudraezz22" target="_blank" style="color:#00ffc6;">@rudraezz22</a></p>
-    <p>Discord: <a href="https://discord.com/users/rudraezz_22" target="_blank" style="color:#00ffc6;">rudraezz_22</a></p>
-  </section>
+        function hideModal() {
+            document.getElementById('cute-message-modal').style.display = 'none';
+        }
 
-  <script>
-    document.querySelectorAll('nav a').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
+        // --- Particle Generation ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('particles-container');
+            const numParticles = 40;
+
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('span');
+                particle.className = 'particle';
+
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+
+                // Randomize animation duration and delay
+                particle.style.animationDuration = `${6 + Math.random() * 5}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                container.appendChild(particle);
+            }
         });
-      });
-    });
-  </script>
+    </script>
+
 </body>
 </html>
