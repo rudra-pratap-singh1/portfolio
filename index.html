@@ -313,10 +313,16 @@
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+
+
+        #bg-music{
+            display: none;
+        }
     </style>
 </head>
 
 <body>
+    <audio id="bg-music" src="east_duo.mp3" loop></audio>
 
     <div class="neon-glow-container">
         <div class="glow-pink"></div>
@@ -356,7 +362,8 @@
         <h2 style="color: #f9a8d4; border-color: #ec4899;">バイオ • Bio</h2>
         <div class="bio-box">
             Innovative developer building intelligent systems and scalable full-stack products. Skilled in AI/ML,
-            Python, DSA, and modern web development. Passionate about futuristic, AI devlopement.
+            Python, DSA, and modern web development. Passionate about futuristic, cyber-themed Japanese digital
+            experiences.
         </div>
     </section>
 
@@ -379,7 +386,7 @@
         <div class="project-card">
             <h3>Vishwa AI</h3>
             <p style="opacity: 0.9;">
-                Next-gen AI system designed for Coding, cognitive intelligence , chatbot & More.
+                Next-gen AI system designed for hyper-automation, cognitive intelligence & futuristic workflows.
             </p>
         </div>
     </section>
@@ -414,7 +421,18 @@
         </div>
     </div>
 
+    
+
+
     <script>
+        window.addEventListener("click",
+            function(){
+                const music = document.getElementById("bg-music");
+                music.muted = false;
+                music.play();
+            
+            } , {once : true});
+        
         // --- Modal Control Functions ---
         function showModal() {
             document.getElementById('cute-message-modal').style.display = 'flex';
@@ -448,5 +466,3 @@
 
 </body>
 </html>
-
-
